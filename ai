@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <title>点击斗建的网页弹出</title>
+    <style>
+        /* 页面整体样式，可以随便改 */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #fdf5ff;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        h1 {
+            margin: 0 0 10px;
+        }
+
+        p {
+            margin: 4px 0;
+        }
+
+        .tip {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        /* 爱心基础样式 */
+        .heart {
+            position: fixed;
+            width: 16px;
+            height: 16px;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: none;
+            animation: floatUp 1.2s ease-out forwards;
+        }
+
+        /* 用伪元素画一个简易爱心 */
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 16px;
+            border-radius: 10px 10px 0 0;
+            background: currentColor;
+            top: 0;
+            left: 50%;
+        }
+
+        .heart::before {
+            transform: translateX(-100%) rotate(-45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .heart::after {
+            transform: rotate(45deg);
+            transform-origin: 0 100%;
+        }
+
+        /* 上浮 + 变大 + 透明度降低 的动画 */
+        @keyframes floatUp {
+            0% {
+                transform: translate(-50%, -50%) translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) translateY(-80px) scale(1.8);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>你好，这是我设定的几行字</h1>
+    <p>第一行：这是一个最小的测试网页。</p>
+    <p>第二行：任何人打开都能看到这些内容。</p>
+    <p>第三行：点击页面任意位置会弹出爱心 💗</p>
+    <div class="tip">提示：随便点点屏幕试试～</div>
+
+    <script>
+        // 点击页面出现爱心
+        document.addEventListener("click", function (e) {
+            createHeart(e.clientX, e.clientY);
+        });
+
+        function createHeart(x, y) {
+            const heart = document.createElement("div");
+            heart.className = "heart";
+
+            // 设置位置
+            heart.style.left = x + "px";
+            heart.style.top = y + "px";
+
+            // 随机颜色（可改）
+            const colors = ["#ff4b5c", "#ff6bcb", "#ff9a62", "#ff5f7e", "#ff3f81"];
+            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+            // 随机大小（可选）
+            const scale = 0.8 + Math.random() * 0.8;
+            heart.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+            document.body.appendChild(heart);
+
+            // 动画结束后删除节点，避免内存占用
+            heart.addEventListener("animationend", function () {
+                heart.remove();
+            });
+        }
+    </script>
+</body>
+</html>
