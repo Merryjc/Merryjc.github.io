@@ -20,41 +20,37 @@
         h1, p {
             margin: 6px 0;
         }
+.heart {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: currentColor;
+    transform: rotate(45deg); /* 用一个方块 + 2 个圆实现最精确的心形 */
+    animation: floatUp 3s ease-out forwards;
+}
 
-        /* 爱心基础 */
-        .heart {
-            position: fixed;
-            width: 16px;
-            height: 16px;
-            transform: translate(-50%, -50%) scale(1);
-            pointer-events: none;
-            opacity: 1;
-            animation: floatUp 3s ease-out forwards;
-        }
+.heart::before,
+.heart::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: currentColor;
+    border-radius: 50%;
+}
 
-        /* 伪元素画心 */
-        .heart::before,
-        .heart::after {
-            content: "";
-            position: absolute;
-            width: 10px;
-            height: 16px;
-            background: currentColor;
-            border-radius: 12px 12px 4px 4px;
-            top: 0;
-            left: 50%;
-        }
+.heart::before {
+    top: -10px;
+    left: 0;
+}
 
-        .heart::before {
-            transform: translateX(-1%) rotate(-45deg);
-            transform-origin: 100% 100%;
-        }
+.heart::after {
+    left: -10px;
+    top: 0;
+}
 
-        .heart::after {
-            transform: rotate(45deg);
-            transform-origin: 0 100%;
-        }
-
+     
+       
         /* 上升动画 */
         @keyframes floatUp {
             0% {
@@ -106,6 +102,7 @@
     </script>
 </body>
 </html>
+
 
 
 
